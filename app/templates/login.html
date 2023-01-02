@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+  </head>
+  <body>
+    <div style="margin: 5px;">
+      <form action="javascript:login()">
+        <div><span>E-Mail : </span><input type="text" id="email" /></div>
+        <div><span>Password : </span><input type="password" id="password" /></div>
+        <div><button id="loginBtn">Log in</button></div>
+      </form>
+      <!--<div><a href="" style="margin: 5px;">Forgot password.</a></div>-->
+      <!-- <button onclick="window.location.href='{{url_for('auth.register')}}';">Sign up</button> -->
+    </div>
+    <script>
+      const email = document.getElementById('email');
+      const password = document.getElementById('password');
+      const loginBtn  = document.getElementById('loginBtn');
+
+      function login() {
+        if ((email.value !== '') && (password.value !== '')) {
+          let fData = new FormData();
+          fData.append('email', email.value);
+          fData.append('password', password.value);
+          
+          fetch("{{url_for('auth.login')}}", {
+            method: 'POST',
+            headers: {},
+            body: fData
+          }).then(response => {
+            const url = new URL(response.url);
+            const is_auth = url.searchParams.get('is_authenticated');
+            if (is_auth === 'False') {
+              alert('Authentication is failed, incorrect username or password.', 'Authentication is failed!');
+            }
+            else {
+              window.location.href = window.location.href;
+            }
+          }).catch(error => {
+            alert('Occuring some error on login process.', 'Error is happen!');
+          });
+        }
+        else {
+          alert('Please input E-Mail address and password.', 'Caution!');
+        }
+      }
+    </script>
+  </body>
+</html>

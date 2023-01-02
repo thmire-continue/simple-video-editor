@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+  </head>
+  <body>
+    <div style="margin: 5px;">
+      <form action="javascript:register()">
+        <div><span>E-Mail : </span><input type="email" id="email" /></div>
+        <div><span>name : </span><input type="text" id="name" /></div>
+        <div><span>Password : </span><input type="password" id="password" /></div>
+        <div><span>Confirm Password : </span><input type="password" id="confirm" /></div>
+        <div><button id="registBtn">Registration</button></div>
+      </form>
+      <button onclick="window.location.href='{{url_for(auth.login)}}';">Move to the login page</button>
+    </div>
+    <script>
+      const email = document.getElementById('email');
+      const name = document.getElementById('name');
+      const password = document.getElementById('password');
+      const confirm = document.getElementById('confirm');
+      const registBtn  = document.getElementById('registBtn');
+
+      function register() {
+        if ((email.value === '') || (name.value === '') || (password.value === '')) {
+          alert('Please input E-Mail address and name, password.', 'Caution!');
+          return
+        }
+        if (confirm.value === '') {
+          alert('Please input password for confirm.', 'Caution!');
+          return
+        }
+        if (password.value !== confirm.value) {
+          alert('Password and confirm password is not match.', 'Caution!');
+          return
+        }
+        let fData = new FormData();
+        fData.append('email', email.value);
+        fData.append('name', name.value);
+        fData.append('password', password.value);
+        
+        fetch("{{url_for('auth.register')}}", {
+          method: 'POST',
+          headers: {},
+          body: fData
+        }).then(response => {
+          if (response.url.split('/').pop() === "{{url_for('auth.login')}}".split('/').pop()) {
+            window.location.href = response.url;
+            alert('Registering your account is completed!', 'Completed!');
+          }
+          else if (response.url.split('/').pop() === "{{url_for('auth.register')}}".split('/').pop()) {
+            alert('Your e-mail is already registered!', 'Already registered!');
+          }
+          else {
+            alert('Occuring some error on register process.', 'Error is happen!');
+          }
+        }).catch(error => {
+          alert('Occuring some error on register process.', 'Error is happen!');
+        });
+      }
+    </script>
+  </body>
+</html>

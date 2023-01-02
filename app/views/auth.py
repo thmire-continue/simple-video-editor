@@ -57,7 +57,7 @@ def register():
             if is_success:
                 return redirect(url_for('auth.login'))
             else:
-                return redirect('')
+                return redirect(url_for('auth.register'))
         except Exception:
             return redirect(url_for('auth.register'))
     else:

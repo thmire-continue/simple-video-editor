@@ -49,19 +49,19 @@ def register():
 
             user = User.query.filter_by(email=email).first()
             if user:
-                return redirect(url_for('auth.register'))
+                return redirect(url_for('auth.register')), 400
 
             new_user = User(email=email, name=name, password=generate_password_hash(password), permission=PermissionLevel.USER)
             is_success = db_manager.add_user(new_user)
 
             if is_success:
-                return redirect(url_for('auth.login'))
+                return redirect(url_for('auth.login')), 200
             else:
-                return redirect('')
+                return redirect(url_for('auth.register')), 500
         except Exception:
-            return redirect(url_for('auth.register'))
+            return redirect(url_for('auth.register')), 500
     else:
-        return render_template('registration.html')
+        return render_template('registration.html'), 200
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -75,21 +75,21 @@ def login():
             user = User.query.filter_by(email=email).first()
             if not user:
                 flash('Please check your login details and try again.')
-                return redirect(url_for('auth.login', is_authenticated=False))
+                return redirect(url_for('auth.login', is_authenticated=False)), 400
 
             if not check_password_hash(user.password, password):
                 flash('Please check your login details and try again.')
-                return redirect(url_for('auth.login', is_authenticated=False))
+                return redirect(url_for('auth.login', is_authenticated=False)), 400
 
             login_user(user, remember=remember)
             return redirect(url_for('main.index'))
         else:
             if current_user.is_authenticated:
-                return redirect(url_for('main.index', is_authenticated=True))
+                return redirect(url_for('main.index', is_authenticated=True)), 200
             else:
-                return render_template('login.html')
+                return render_template('login.html'), 200
     except Exception:
-        return redirect(url_for('auth.login', is_authenticated=False))
+        return redirect(url_for('auth.login', is_authenticated=False)), 500
 
 @auth.route('/logout')
 @login_required
@@ -98,4 +98,4 @@ def logout():
         logout_user()
     except Exception:
         pass
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('auth.login')), 200

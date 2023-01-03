@@ -1,0 +1,12 @@
+# requirements for all environments
+python-dotenv~=0.21.0
+flask~=2.2.2
+flask_cors~=3.0.10
+Flask-Limiter~=2.8.1
+pymemcache~=4.0.0
+waitress~=2.1.2
+
+flask-login~=0.6.2
+flask-bcrypt~=1.0.1
+
+Flask-SQLAlchemy~=3.0.2

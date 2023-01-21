@@ -8,10 +8,16 @@
   <body>
     <div style="text-align:right;">
       <p>{{name}}</p>
-      <button onclick="window.location.href='{{url_for('auth.logout')}}';">Log out</button>
+      <button onclick="{{url_for('auth.logout')}}">Log out</button>
     </div>
     <div>
-      <p>This is the main page.</p>
+      <div>
+        <form method="post" action="{{url_for('editor.upload_file')}}" enctype="multipart/form-data">
+          <span>Upload mp4 file: </span>
+          <input type="file" name="file" accept=".mp4">
+          <button type='submit'>upload</button>
+        </form>
+      </div>
     </div>
     <script>
     </script>

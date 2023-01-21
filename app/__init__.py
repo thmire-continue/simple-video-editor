@@ -5,6 +5,7 @@ from flask_login import LoginManager
 
 from .views.main import main
 from .views.auth import auth
+from .views.editor import editor
 # from .models.storage_manager import storage_manager
 from .models.db_manager import db_manager
 from .models.user import User
@@ -18,6 +19,7 @@ def create_app():
     app.config['SECRET_KEY'] = 'secret-key-goes-here'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['UPLOAD_FOLDER'] = './uploads'
     
     # storage_manager.init_storage()
     
@@ -25,6 +27,7 @@ def create_app():
 
     app.register_blueprint(main)
     app.register_blueprint(auth)
+    app.register_blueprint(editor)
 
     db_manager.init_db(app)
 

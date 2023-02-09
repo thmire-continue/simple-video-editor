@@ -20,6 +20,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['UPLOAD_FOLDER'] = './uploads'
+    app.config['MAX_CONTENT_LENGTH'] = 2 * 1024*1024*1024 # Upload size limit : 2 GiB
     
     # storage_manager.init_storage()
     

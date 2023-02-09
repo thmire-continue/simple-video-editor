@@ -44,8 +44,12 @@ def upload_file():
             response_code = 200
             response_dict = {'message': 'Uploading file is completed.'}
         except Exception as e:
-            response_code = e['code'] if 'code' in e.keys() else 500
-            response_dict = e['dict'] if 'dict' in e.keys() else {'message': 'Internal server error.'}
+            if hasattr(e, 'keys'):
+                response_code = e['code'] if 'code' in e.keys() else 500
+                response_dict = e['dict'] if 'dict' in e.keys() else {'message': 'Internal server error.'}
+            else:
+                response_code = 500
+                response_dict = {'message': 'Internal server error.'}
 
         return jsonify(response_dict), response_code
 

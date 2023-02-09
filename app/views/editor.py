@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
+from flask import current_app, Blueprint, render_template, redirect, url_for, request, flash, jsonify
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
@@ -40,8 +40,7 @@ def upload_file():
 
             flash('The extension of uploaded file is valid.')
             filename = secure_filename(file.filename)
-            # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            file.save(os.path.join('./upload', filename))
+            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
             response_code = 200
             response_dict = {'message': 'Uploading file is completed.'}
         except Exception as e:

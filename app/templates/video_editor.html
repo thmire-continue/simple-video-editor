@@ -8,12 +8,29 @@
   <body>
     <div style="text-align:right;">
       <p>{{name}}</p>
-      <button onclick="window.location.href='{{url_for('auth.logout')}}';">Log out</button>
+      <button onclick="{{url_for('auth.logout')}}">Log out</button>
     </div>
     <div>
-      <p>This is the main page.</p>
+      <div>
+        <form id="uploadMp4">
+          <span>Upload mp4 file: </span>
+          <input type="file" name="file" accept=".mp4">
+        </form>
+        <button onclick="onFetchUpload();">upload</button>
+        <p id="uploadResult"></p>
+      </div>
     </div>
     <script>
+      function onFetchUpload () {
+        const uploadForm = document.getElementById('uploadMp4');
+        const fData = new FormData(uploadForm);
+        fetch(`{{url_for('editor.upload_file')}}`, {method:'POST', body: fData}).then( response => {
+          response.status === 200 ? response.json() : Promise.reject(response.status);
+          const result = document.getElementById('uploadResult');
+          if (result) result.innerHTML = response.status.toString();
+          console.log(response.status.toString());
+        });
+      }
     </script>
   </body>
 </html>

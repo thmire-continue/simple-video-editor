@@ -14,7 +14,7 @@
         <div><span>Confirm Password : </span><input type="password" id="confirm" /></div>
         <div><button id="registBtn">Registration</button></div>
       </form>
-      <button onclick="window.location.href='{{url_for(auth.login)}}';">Move to the login page</button>
+      <button onclick="window.location.href='{{url_for('auth.login')}}';">Move to the login page</button>
     </div>
     <script>
       const email = document.getElementById('email');

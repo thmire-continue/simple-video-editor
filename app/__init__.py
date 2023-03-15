@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 from flask_login import LoginManager
 
 from .views.main import main
@@ -23,8 +22,9 @@ def create_app():
     app.config['MAX_CONTENT_LENGTH'] = 2 * 1024*1024*1024 # Upload size limit : 2 GiB
     
     # storage_manager.init_storage()
-    
-    limiter = Limiter(app, key_func=get_remote_address, default_limits=["1000/day;500/hour;100/minute;10/second"])
+        
+    limiter = Limiter(app, default_limits=["100/day;50/hour;10/minute;1/second"])
+    limiter.limit("100/day;50/hour;10/minute;1/second")
 
     app.register_blueprint(main)
     app.register_blueprint(auth)

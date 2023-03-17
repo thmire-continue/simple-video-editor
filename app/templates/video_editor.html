@@ -8,8 +8,8 @@
   <body>
     <div style="text-align:right;">
       <p>{{name}}</p>
-      <button onclick="{{url_for('auth.logout')}}">Log out</button>
-    </div>
+      <button onclick="window.location.href='{{url_for('auth.logout')}}';">Log out</button>
+     </div>
     <div>
       <div>
         <form id="uploadMp4">

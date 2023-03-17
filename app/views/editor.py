@@ -54,4 +54,4 @@ def upload_file():
         return jsonify(response_dict), response_code
 
     else:
-        return redirect(url_for('editor.edit_mp4')), 200
+        return redirect(url_for('editor.edit_mp4'))
